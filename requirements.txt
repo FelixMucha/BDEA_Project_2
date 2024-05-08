@@ -1,2 +1,8 @@
 Flask==2.3.3
 Werkzeug==2.3.7
+pyspark==3.5.1
+
+# Java JDK (Java Development Kit)
+https://www.oracle.com/de/java/technologies/downloads/#jdk22-windows
+# Apache Spark
+https://www.apache.org/dyn/closer.lua/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz
