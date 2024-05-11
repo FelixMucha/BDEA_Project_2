@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        .file-preview {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>File Upload</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="files[]" multiple>
+        <input type="submit" value="Upload">
+    </form>
+    <h2>Uploaded Files</h2>
+    <ul>
+        {% for file in files %}
+            <li><a href="#" class="file-link">{{ file }}</a></li>
+            <div class="file-preview" id="{{ file|replace('.txt', '') }}">
+                <!-- Text should be displayed here -->
+            </div>
+        {% endfor %}
+    </ul>
+    <h2>Tag Clouds</h2>
+    <ul>
+        {% for tag_cloud in tag_clouds %}
+            <li><a href="#" class="tag-cloud-link">{{ tag_cloud }}</a></li>
+            <div class="file-preview" id="{{ tag_cloud|replace('_tag_cloud.png', '') }}">
+                <img src="{{ url_for('static', filename=tag_cloud) }}" alt="Tag Cloud">
+            </div>
+        {% endfor %}
+    </ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Show or hide file preview on click
+            document.querySelectorAll('.file-link').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var previewId = this.textContent.replace('.txt', '');
+                    var preview = document.getElementById(previewId);
+                    if (preview.style.display === 'block') {
+                        preview.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.file-preview').forEach(function(preview) {
+                            preview.style.display = 'none';
+                        });
+                        preview.style.display = 'block';
+                    }
+                });
+            });
+
+            // Show or hide tag cloud on click
+            document.querySelectorAll('.tag-cloud-link').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var previewId = this.textContent.replace('_tag_cloud.png', '');
+                    var preview = document.getElementById(previewId);
+                    if (preview.style.display === 'block') {
+                        preview.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.file-preview').forEach(function(preview) {
+                            preview.style.display = 'none';
+                        });
+                        preview.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
