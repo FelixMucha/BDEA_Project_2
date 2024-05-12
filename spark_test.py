@@ -15,6 +15,9 @@ NOTE: To run this code you need to install java and spark on your machine:
 
 https://www.oracle.com/de/java/technologies/downloads/#jdk22-windows
 https://www.apache.org/dyn/closer.lua/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz
+https://www.mongodb.com/try/download/community
+
+NOTE: Only needed for windows users:
 https://github.com/steveloughran/winutils/tree/master
 
 After installing java, spark and hadoop binary you need to set up the hadoop home environment variable to point to the winutils directory.
@@ -35,6 +38,7 @@ text_files = sc.wholeTextFiles(path)
 
 tokenized_texts = text_files.map(lambda x: (x[0], x[1].lower().translate(str.maketrans('', '', string.punctuation)).split()))
 
+"""
 # Entferne Stoppwörter
 stop_words = set(stopwords.words('german'))
 filtered_texts = tokenized_texts.map(lambda x: (x[0], [word for word in x[1] if word not in stop_words]))
@@ -66,6 +70,6 @@ for i, (file_path, tfidf_vector) in enumerate(tfidf_values):
     plt.axis('off')
     plt.show()
 
-
+"""
 
 sc.stop()

@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload Files</title>
+    <title>BDEA Project 2</title>
 </head>
 <body>
+    <h1>BDEA Project 2</h1>
     <h2>Upload Files</h2>
     <form method="post" enctype="multipart/form-data" action="/upload">
         <input type="file" name="files[]" multiple>
         <input type="submit" value="Upload">
+    </form>
+    <h2>Files</h2>
+        <p>Files in the upload folder:</p>
+        <ul>
+            {% for file in files %}
+                <li><a href="{{ url_for('process_file', filename=file) }}">{{ file }}</a></li>
+            {% endfor %}
+        </ul>
+    <p></p>
+    <h2>Batch WordCount</h2>
+    <form action="/wordcount" method="post">
+        <button type="submit">WordCount</button>
     </form>
 </body>
 </html>
