@@ -3,7 +3,7 @@ import os
 from werkzeug.utils import secure_filename
 import speed_layer as speed_layer
 import batch_layer as batch_layer
-
+import time
 
 
 # Setuo the environment variables for Hadoop and Python
@@ -41,7 +41,10 @@ def index():
     if len(files) == 0:
         files = ['no files uploaded yet...']
     # Pass the list of files to the template
-    return render_template('index.html', files=files)
+    # --------------------------------------------------- for testing purposes ---------------------------------------------------
+    #return render_template('index.html', files=files)
+    return render_template('index.html', time=time, files=files)
+    # --------------------------------------------------- for testing purposes ---------------------------------------------------
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

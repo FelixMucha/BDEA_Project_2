@@ -5,7 +5,7 @@ This repository contains the source code for an exercise in the field of Big Dat
 ## Project Goal
 The goal of this project is to develop a small web application based on the Lambda Architecture for analyzing large document collections. This application will include functionalities such as generating Tag Clouds using the TF-IDF method, uploading text files via a web interface, storing them in the file system (typically HDFS in practice), and performing batch processing tasks.
 
-![Alt-Text](readme_data/bdea_a3_diagram.png)
+![Alt-Text](readme_data/bdea_a3_diagram.jpg)
 
 ## Key Features
 - **Upload of Text Files:** Users can upload text files through a web interface. Optionally, support for additional file types can be added.

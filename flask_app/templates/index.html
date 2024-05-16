@@ -2,9 +2,15 @@
 <html>
 <head>
     <title>BDEA Project 2</title>
+    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">-->
+    <!-- for debug only-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css', _t=time.time()) }}">
 </head>
 <body>
-    <h1>BDEA Project 2</h1>
+    
+    <div class="header">
+        <h1>BDEA Project 2</h1>
+    </div>
     <h2>Upload Files</h2>
     <div id="drop_zone">Drop files here</div>
     <form id="upload_form" method="post" enctype="multipart/form-data" action="/upload">
