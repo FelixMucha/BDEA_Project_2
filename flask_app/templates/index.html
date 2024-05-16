@@ -6,8 +6,9 @@
 <body>
     <h1>BDEA Project 2</h1>
     <h2>Upload Files</h2>
-    <form method="post" enctype="multipart/form-data" action="/upload">
-        <input type="file" name="files[]" multiple>
+    <div id="drop_zone">Drop files here</div>
+    <form id="upload_form" method="post" enctype="multipart/form-data" action="/upload">
+        <input type="file" id="file_input" name="files[]" multiple>
         <input type="submit" value="Upload">
     </form>
     <h2>Files</h2>
@@ -22,6 +23,29 @@
     <form action="/wordcount" method="post">
         <button type="submit">WordCount</button>
     </form>
+
+    <script>
+        var dropZone = document.getElementById('drop_zone');
+        var fileInput = document.getElementById('file_input');
+    
+        // When a file is dragged over the drop zone
+        dropZone.ondragover = function(event) {
+            event.preventDefault();
+            this.style.backgroundColor = '#ccc';
+        };
+    
+        // When a file is dropped on the drop zone
+        dropZone.ondrop = function(event) {
+            event.preventDefault();
+            this.style.backgroundColor = '';
+            fileInput.files = event.dataTransfer.files;
+        };
+    
+        // When a file is dragged out of the drop zone
+        dropZone.ondragleave = function() {
+            this.style.backgroundColor = '';
+        };
+    </script>
 </body>
 </html>
 

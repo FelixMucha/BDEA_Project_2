@@ -5,6 +5,8 @@ This repository contains the source code for an exercise in the field of Big Dat
 ## Project Goal
 The goal of this project is to develop a small web application based on the Lambda Architecture for analyzing large document collections. This application will include functionalities such as generating Tag Clouds using the TF-IDF method, uploading text files via a web interface, storing them in the file system (typically HDFS in practice), and performing batch processing tasks.
 
+![Alt-Text](readme_data/bdea_a3_diagram.png)
+
 ## Key Features
 - **Upload of Text Files:** Users can upload text files through a web interface. Optionally, support for additional file types can be added.
 - **Tag Cloud Generation:** Upon uploading a file, a Tag Cloud will be generated using the TF-IDF method. Stopwords (words with less than 4 characters) will be removed. Term frequency (TF) will be derived directly from the document.
@@ -29,7 +31,8 @@ For implementing the web functionalities, it is recommended to use Flask.
 5. End application by strg + c
 
 ## Contributors
-- [Karel Kouambeng Fosso, Felix Mucha]
+- Karel Kouambeng Fosso
+- Felix Mucha (felixjanmichael.mucha@stud.hs-mannheim.de)
 
 ## License
 This project is licensed under the [GNU General Public License].
