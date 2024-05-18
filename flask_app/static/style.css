@@ -1,23 +1,154 @@
 
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin-top: 0px;
+    margin-right: 0px;
     padding: 0;
-    background-color: #023047;
+    background-color: #16425B;
     color: #ffffff;
+    /*text-align: center;*/
 }
 
 /* center the header */
 h1 {
-    text-align: center;
+    /*text-align: center;*/
+    margin-top: 0; 
 }
-
 
 /* create a header border */
 .header {
-    background-color: #023047;
+    background-color: #092434;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 10px;
-    border-color: #FB8500;
+    border-color: #ffffff;
+    color: #ffffff;
+    margin-top: 0;
+    padding: 10px;
+    margin-left: -10px;
+}
+
+.error {
+    color: rgb(255, 62, 62);
+}
+
+.hor_line {
+    margin-top: 10px;
+    border: 0;
+    height: 1px;
+    background: #ffffff;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.row {
+    display: flex;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    flex-direction: row;
+    width: 100%;
+
+}
+
+.column {
+    flex: 50%;
+    /*border: 1px solid #E9C46A;*/
+    box-sizing: border-box;
+    overflow: auto;
+
+
+}
+
+.column-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    margin: 20px;
+}
+
+#file_list ul {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+}
+
+#file_list ul li {
+    padding: 8px;
+    margin-bottom: 7px;
+    background-color: #2F6690;
+    color: #ffffff;
+    padding: 10px;
+    margin: -2px;
+
+    border: 2px solid #092434;
+}
+
+#file_list ul li:hover {
+    background-color: #3A7CA5;
+    color: #ffffff;
+}
+
+button {
+    background-color: #E9C46A;
+    color: #16425B;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+button:hover {
+    background-color: #3A7CA5;
+    color: #E9C46A;
+}
+
+#upload_form {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    gap: 20px;
+    /*margin: auto;*/
+    /*padding: 20px;*/
+    width: 300px;
+}
+
+#file_input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #E9C46A;
+}
+
+#file_input::file-selector-button {
+    background-color: #3A7CA5;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+
+#upload_form input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #E9C46A;
+    color: #092434;
+    cursor: pointer;
+}
+
+#upload_form input[type="submit"]:hover {
+    background-color: #3A7CA5;
     color: #ffffff;
 }

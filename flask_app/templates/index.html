@@ -11,47 +11,65 @@
     <div class="header">
         <h1>BDEA Project 2</h1>
     </div>
-    <h2>Upload Files</h2>
-    <div id="drop_zone">Drop files here</div>
-    <form id="upload_form" method="post" enctype="multipart/form-data" action="/upload">
-        <input type="file" id="file_input" name="files[]" multiple>
-        <input type="submit" value="Upload">
-    </form>
-    <h2>Files</h2>
-        <p>Files in the upload folder:</p>
-        <ul>
-            {% for file in files %}
-                <li><a href="{{ url_for('process_file', filename=file) }}">{{ file }}</a></li>
-            {% endfor %}
-        </ul>
-    <p></p>
-    <h2>Batch WordCount</h2>
-    <form action="/wordcount" method="post">
-        <button type="submit">WordCount</button>
-    </form>
 
-    <script>
-        var dropZone = document.getElementById('drop_zone');
-        var fileInput = document.getElementById('file_input');
-    
-        // When a file is dragged over the drop zone
-        dropZone.ondragover = function(event) {
-            event.preventDefault();
-            this.style.backgroundColor = '#ccc';
-        };
-    
-        // When a file is dropped on the drop zone
-        dropZone.ondrop = function(event) {
-            event.preventDefault();
-            this.style.backgroundColor = '';
-            fileInput.files = event.dataTransfer.files;
-        };
-    
-        // When a file is dragged out of the drop zone
-        dropZone.ondragleave = function() {
-            this.style.backgroundColor = '';
-        };
-    </script>
+    <div class="container">
+        <div class="row">
+            <div class="column">
+                <h2>Upload Files</h2>
+                <p>Upload text files to start the speed layer, so the tag clouds can be generated</p>
+                <form id="upload_form" method="post" enctype="multipart/form-data" action="/upload">
+                    <input type="file" id="file_input" name="files[]" multiple>
+                    <input type="submit" value="Upload">
+
+                </form>
+                {% if message %}
+                <p class="error">{{ message }}</p>
+                {% endif %}
+
+                
+                <div class="hor_line"></div>
+                <div class="column-layout">
+                    
+                    <h2>Files</h2>
+                    <ul>
+                        <li> The files are expandable by clicking. This will dispaly the different TF-IDF as tag clouds</li>
+                    </ul>
+                    <p>Files in the upload folder:</p>
+                    <div id="file_list">
+                    <ul>
+                        {% for file in files %}
+                        <li>
+                            <span class="toggle">{{ file.replace('.txt', '') }}</span>
+                            <div class="image" style="display: none;">
+                                 {% set tag_cloud = file.replace('.txt', '_tag_cloud.png') %} 
+                                <!--{% set tag_cloud = file + '_tag_cloud.png' %} -->
+                                <img src="{{ url_for('tag_cloud', filename=tag_cloud) }}" alt="generate tag cloud first">
+                            </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+
+
+            </div>
+
+            <div class="hor_line"></div>
+            <div class="column">
+                <h2>Batch WordCount</h2>
+                <ul>
+                <li>If no file is uploaded, no batch cloud can be generated</li>
+                <li>If the batch job isn't started, every document frequency is set to 1 </li>
+                <li>Click the button to generate the batch document frequency cloud</li>
+                </ul>
+                <form action="/wordcount" method="post">
+                    <button type="submit">WordCount</button>
+                </form>
+                {% set batch_cloud = 'batch_tag_cloud.png' %}
+                <img src="{{ url_for('tag_cloud', filename='batch_tag_cloud.png') }}" alt="upload files first, before default will apear">
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
 

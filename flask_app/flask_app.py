@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 from werkzeug.utils import secure_filename
 import speed_layer as speed_layer
 import batch_layer as batch_layer
 import time
-
+from flask import send_from_directory
 
 # Setuo the environment variables for Hadoop and Python
 path_to_python = "C:\\Users\\felix\\AppData\\Local\\Programs\\Python\\Python310\\python.exe"
@@ -23,8 +23,17 @@ app = Flask(__name__)
 
 # Define the upload folder
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'doc_uploads')
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Define the tag cload folder
+TAG_CLOUD_FOLDER = os.path.join(os.path.dirname(__file__), '..', 'tag_clouds')
+app.config['TAG_CLOUD_FOLDER'] = TAG_CLOUD_FOLDER
+
+@app.route('/tag_clouds/<filename>')
+def tag_cloud(filename):
+    filename = filename.replace('.txt', '')
+    return send_from_directory(app.config['TAG_CLOUD_FOLDER'], filename)
+
 
 # Allowed file extensions
 ALLOWED_EXTENSIONS = {'txt'}
@@ -40,21 +49,24 @@ def index():
     # if empty list, return a message
     if len(files) == 0:
         files = ['no files uploaded yet...']
-    # Pass the list of files to the template
-    # --------------------------------------------------- for testing purposes ---------------------------------------------------
-    #return render_template('index.html', files=files)
-    return render_template('index.html', time=time, files=files)
-    # --------------------------------------------------- for testing purposes ---------------------------------------------------
+    # Get list of tag clouds in the static folder
+    tag_clouds = [file for file in os.listdir(app.config['TAG_CLOUD_FOLDER']) if file.endswith('_tag_cloud.png')]
+    # Get the message from the query string
+    message = request.args.get('message', default=None)
+    # time=time for testing purposes 
+    return render_template('index.html', time=time, files=files, tag_clouds=tag_clouds, message=message)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
-    # Check if files were submitted
-    if 'files[]' not in request.files:
-        return redirect(request.url)
-    
+    # Get the uploaded files
     files = request.files.getlist('files[]')
-
-    # Iterate over each uploaded file
+    # Check if files were submitted
+    if not files or files[0].filename == '':
+        warning_message = 'No file selected for uploading. Click first on "Choose Files" and then on "Upload Files".'
+        return redirect(url_for('index', message=warning_message))
+    
+    # Save all the uploaded files
+    file_paths = []
     for file in files:
         # Check if the file is empty
         if file.filename == '':
@@ -66,14 +78,16 @@ def upload_file():
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            
-            # Perform processing on the uploaded files
-            speed_layer.process_file_with_spark(file_path)
+            file_paths.append(file_path)
+    # print successfully uploaded files
+    print(f"Files uploaded successfully: {file_paths}")
+    # Perform processing on the uploaded files
+    speed_layer.process_files_with_spark(file_paths)
 
     return redirect(url_for('index'))
 
 
-@app.route('/process/<filename>', methods=['GET'])
+@app.route('/process_file/<filename>', methods=['GET'])
 def process_file(filename):
     # Construct the full file path
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -93,7 +107,7 @@ def process_file(filename):
 def wordcount():
     # Perform word count operation here
     # For example, you can call a function from spark_processing module
-    batch_layer.word_count()
+    batch_layer.word_count(app.config['TAG_CLOUD_FOLDER'])
 
     return redirect(url_for('index'))
 
