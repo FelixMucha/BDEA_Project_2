@@ -71,7 +71,7 @@ def update_idf_for_all_filenames(idf):
     client.close()
 
 
-def word_count(cload_tag_folder):
+def batch_job(cload_tag_folder):
     # read all files in mongo db
     data = read_all_data_from_mongo()
     # get all text data

@@ -103,11 +103,10 @@ def process_file(filename):
     return redirect(url_for('index'))
 
 
-@app.route('/wordcount', methods=['POST'])
+@app.route('/batchjob', methods=['POST'])
 def wordcount():
-    # Perform word count operation here
-    # For example, you can call a function from spark_processing module
-    batch_layer.word_count(app.config['TAG_CLOUD_FOLDER'])
+    # Perform batch job operation here
+    batch_layer.batch_job(app.config['TAG_CLOUD_FOLDER'])
 
     return redirect(url_for('index'))
 
