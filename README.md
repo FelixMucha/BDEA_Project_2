@@ -31,7 +31,7 @@ For implementing the web functionalities, it is recommended to use Flask.
 5. End application by strg + c
 
 ## Contributors
-- Karel Kouambeng Fosso
+- Karel Kouambeng Fosso (karel.kouambengfosso@stud.hs-mannheim.de)
 - Felix Mucha (felixjanmichael.mucha@stud.hs-mannheim.de)
 
 ## License

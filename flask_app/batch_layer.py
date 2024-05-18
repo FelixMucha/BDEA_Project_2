@@ -7,13 +7,20 @@ import speed_layer
 from pyspark.ml.feature import IDF, Tokenizer, CountVectorizer
 from collections import Counter
 
-"""
-def calculate_inverse_document_frequency_spark(text, tf):
-    # TODO: Implement the function to calculate inverse document frequency using Spark
-    # TODO: try to do this with tf and spar instead of text
-    return idf
-"""
 def calculate_inverse_document_frequency_spark(filenames, texts, tfs):
+    """
+    Calculate the Inverse Document Frequency (IDF) for a collection of documents using Apache Spark.
+
+    Args::
+        filenames: A list of filenames corresponding to the documents.
+        texts: A list of document texts, where each element is the full text of a document.
+        tfs: A list of term frequency dictionaries for each document.
+
+    Returns:
+        dict: A dictionary where the keys are terms and the values are their corresponding IDF scores.
+
+    """
+
     # Create a SparkSession
     spark = SparkSession.builder.getOrCreate()
 
@@ -40,56 +47,78 @@ def calculate_inverse_document_frequency_spark(filenames, texts, tfs):
     # Convert the features to a dictionary
     idf_dict = {word: idf for word, idf in zip(vocabulary, idfModel.idf.toArray())}
 
-    # Stop the SparkSession
+    
     spark.stop()
 
     return idf_dict
 
 
 def read_all_data_from_mongo():
-    # Connect to MongoDB
+    """
+    Connects to a MongoDB database and retrieves all documents from a specific collection.
+
+    This function establishes a connection to a MongoDB instance running on localhost at the default port (27017).
+    It then accesses the 'frequency_database' and retrieves all documents from the 'frequency_scores' collection.
+    The retrieved documents are converted to a list and returned. Finally, the MongoDB client connection is closed.
+
+    Returns:
+        list: A list of documents retrieved from the 'frequency_scores' collection in the 'frequency_database'.
+    """
     client = MongoClient("mongodb://127.0.0.1:27017/")
     db = client['frequency_database']
     collection = db['frequency_scores']
-    # Query all documents in the collection
     documents = collection.find()
-    # Convert the documents to a list
     data = list(documents)
-    # Close the MongoDB client
     client.close()
+
     return data
 
 def update_idf_for_all_filenames(idf):
-    # Connect to MongoDB
+    """
+    Update the 'idf' field for all documents in the 'frequency_scores' collection of the 'frequency_database'.
+
+    This function connects to a MongoDB instance, accesses the 'frequency_scores' collection in the 
+    'frequency_database', and updates the 'idf' field for all documents with the provided 'idf' value.
+
+    Args:
+        idf (float): The IDF value to set for all documents in the collection.
+
+    """
     client = MongoClient("mongodb://127.0.0.1:27017/")
     db = client['frequency_database']
     collection = db['frequency_scores']
-    # Update the 'idf' field for all documents
     collection.update_many({}, {'$set': {'idf': idf}})
     print(f"IDF updated for all filenames")
-    # Close the MongoDB client
+    
     client.close()
 
 
-def batch_job(cload_tag_folder):
-    # read all files in mongo db
+def batch_job(cloud_tag_folder):
+    """
+    Performs a batch job to calculate TF-IDF values and generate tag clouds.
+
+    This function reads all text data from a MongoDB database, calculates the Inverse Document Frequency (IDF)
+    for all documents, and updates the IDF values in the database. Subsequently, it computes the TF-IDF values
+    for each document and generates corresponding tag clouds. Finally, it creates a global tag cloud based
+    on the TF values of all documents.
+
+    Args:
+    cloud_tag_folder (str): The path to the folder where the generated tag clouds should be saved.
+    """
+    
     data = read_all_data_from_mongo()
-    # get all text data
     texts = [d['text'] for d in data]
-    # get all filenames
     filenames = [d['filename'] for d in data]
-    # get all tf data
     tfs = [d['tf'] for d in data]
-    # calculate document frequency
     idf = calculate_inverse_document_frequency_spark(filenames, texts, tfs)
-    # update idf in mongo db
     update_idf_for_all_filenames(idf)
     print("Document frequency calculation completed successfully")
+
     # for each file calculate tf-idf
     for filename, tf in zip(filenames, tfs):
         tf_idf = {word: tf[word] * idf[word] for word in tf if word in idf}
-        # remove txt extension
         filename = filename.replace('.txt', '')
+        
         # generate tag clouds
         speed_layer.generate_tag_cloud(tf_idf, filename, is_batch=True)
 
@@ -101,11 +130,7 @@ def batch_job(cload_tag_folder):
     # Calculate TF-IDF for global TF
     global_tf_idf = {word: global_tf[word] * idf[word] for word in global_tf if word in idf}
 
-
-    print(cload_tag_folder)
-    # Get parent directory
-    #cload_tag_folder = os.path.dirname(cload_tag_folder)
-    #path_batch_cloud = os.path.join(cload_tag_folder, "batch")
+    print(cloud_tag_folder)
 
     speed_layer.generate_tag_cloud(global_tf_idf, "batch", is_batch=True)
     print("batch Tag cloud generated successfully")
