@@ -61,8 +61,8 @@
                 <li>If the batch job isn't started, every document frequency is set to 1 </li>
                 <li>Click the button to generate the batch document frequency cloud</li>
                 </ul>
-                <form action="/wordcount" method="post">
-                    <button type="submit">WordCount</button>
+                <form action="/batchjob" method="post">
+                    <button type="submit">Batch Job</button>
                 </form>
                 {% set batch_cloud = 'batch_tag_cloud.png' %}
                 <img src="{{ url_for('tag_cloud', filename='batch_tag_cloud.png') }}" alt="start batch job first, before tag cloud will apear">
