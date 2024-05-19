@@ -37,9 +37,10 @@ Please ensure to follow these steps in order to avoid any configuration issues.
 ## Instructions for Running the Project
 1. Clone this repository to your local machine.
 2. Install the required dependencies.
-3. Run the Flask application.
-4. Navigate to the web interface (http://localhost:5000) and start using the application.
-5. End application by strg + c
+3. Open the `flask_app.py` file and update the `path_to_python` and `path_to_hadoop` variables with the correct paths to your Python and Hadoop installations, respectively.
+4. Run the Flask application `flask_app.py`.
+5. Navigate to the web interface (http://localhost:5000) and start using the application.
+6. End application by pressing `Ctrl + C`.
 
 ## Contributors
 - Karel Kouambeng Fosso (karel.kouambengfosso@stud.hs-mannheim.de)
