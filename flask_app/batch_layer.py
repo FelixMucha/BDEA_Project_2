@@ -105,7 +105,7 @@ def batch_job(cloud_tag_folder):
     texts = [d['text'] for d in data]
     filenames = [d['filename'] for d in data]
     tfs = [d['tf'] for d in data]
-    idf = calculate_inverse_document_frequency_spark(filenames, texts, tfs)
+    idf = calculate_inverse_document_frequency_spark(texts)
     update_idf_for_all_filenames(idf)
     print("Document frequency calculation completed successfully")
 
