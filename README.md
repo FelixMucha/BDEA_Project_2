@@ -24,7 +24,7 @@ The goal of this project is to develop a small web application based on the Lamb
 Follow these steps to set up the environment:
 1. Install Java JDK: [Download here](https://www.oracle.com/java/technologies/downloads/#jdk22-windows)
 2. Install Hadoop (3.3.5): [Download here](https://hadoop.apache.org/release/3.3.5.html)
-3. Install Apache Spark: [Download here](https://www.apache.org/dyn/closer.lua/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz)
+3. Install Apache Spark (3.5.1): [Download here](https://www.apache.org/dyn/closer.lua/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3.tgz)
 4. Install all required dependencies (requirements.txt)
 
 ### For Windows Users
