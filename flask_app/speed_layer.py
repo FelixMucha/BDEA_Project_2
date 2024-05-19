@@ -15,6 +15,16 @@ stop_words = set(stopwords.words('german'))
 
 
 def process_text(text):
+    """
+    Process the given text by tokenizing it, removing stopwords and non-alphabetic tokens,
+    and joining the remaining tokens back into a single string.
+
+    Args:
+        text (str): The text to be processed.
+
+    Returns:
+        str: The processed text.
+    """
     # Tokenize the text
     tokens = word_tokenize(text.lower())
     # Remove stopwords and non-alphabetic tokens
