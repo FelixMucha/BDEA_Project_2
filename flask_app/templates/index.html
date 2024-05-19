@@ -2,16 +2,12 @@
 <html>
 <head>
     <title>BDEA Project 2</title>
-    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">-->
-    <!-- for debug only-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css', _t=time.time()) }}">
 </head>
 <body>
-    
     <div class="header">
         <h1>BDEA Project 2</h1>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="column">
@@ -20,16 +16,12 @@
                 <form id="upload_form" method="post" enctype="multipart/form-data" action="/upload">
                     <input type="file" id="file_input" name="files[]" multiple>
                     <input type="submit" value="Upload">
-
                 </form>
                 {% if message %}
                 <p class="error">{{ message }}</p>
                 {% endif %}
-
-                
                 <div class="hor_line"></div>
                 <div class="column-layout">
-                    
                     <h2>Files</h2>
                     <ul>
                         <li> The files are expandable by clicking. This will dispaly the different TF-IDF as tag clouds</li>
@@ -49,10 +41,7 @@
                     {% endfor %}
                     </ul>
                 </div>
-
-
             </div>
-
             <div class="hor_line"></div>
             <div class="column">
                 <h2>Batch WordCount</h2>
@@ -72,4 +61,3 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
-

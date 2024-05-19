@@ -1,20 +1,15 @@
-from pyspark import SparkConf, SparkContext
-import os
 from pymongo import MongoClient
-from pyspark.sql.functions import sum as _sum
 from pyspark.sql import SparkSession
 import speed_layer
 from pyspark.ml.feature import IDF, Tokenizer, CountVectorizer
 from collections import Counter
 
-def calculate_inverse_document_frequency_spark(filenames, texts, tfs):
+def calculate_inverse_document_frequency_spark(texts):
     """
     Calculate the Inverse Document Frequency (IDF) for a collection of documents using Apache Spark.
 
     Args::
-        filenames: A list of filenames corresponding to the documents.
         texts: A list of document texts, where each element is the full text of a document.
-        tfs: A list of term frequency dictionaries for each document.
 
     Returns:
         dict: A dictionary where the keys are terms and the values are their corresponding IDF scores.
@@ -134,16 +129,3 @@ def batch_job(cloud_tag_folder):
 
     speed_layer.generate_tag_cloud(global_tf_idf, "batch", is_batch=True)
     print("batch Tag cloud generated successfully")
-
-"""
-hadoop
-https://hadoop.apache.org/release/3.3.5.html
-
----- Start only Windows ---
-hadoop binary
-https://github.com/cdarlint/winutils/tree/master
-replcae orginal bin folder with the downloaded bin folder
----- End  only Windows---
-
-pip install pyspark
-"""

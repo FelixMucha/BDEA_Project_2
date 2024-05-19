@@ -1,3 +1,4 @@
+// This function toggles the display of the image when the list item is clicked
 document.querySelectorAll('#file_list li').forEach(function(listItem) {
     listItem.addEventListener('click', function(event) {
         event.preventDefault();
